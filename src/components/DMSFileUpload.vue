@@ -72,7 +72,7 @@
 			DMSFileUploadConfig,
 		},
 		data: () => ({
-			show: true,
+			show: false,
 			files: [],
 		}),
 		methods: {
