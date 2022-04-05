@@ -120,6 +120,7 @@
 		},
 		methods: {
 			getFileData: async function () {
+        if (!this.file) return;
 				this.loading = true;
 				try {
           this.fileData = await getFile(this.file);
