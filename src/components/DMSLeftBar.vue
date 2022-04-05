@@ -48,10 +48,10 @@
 </template>
 
 <script>
-	import { APIUser } from "@/api/api";
 	import DMSTooltip from "./DMSTooltip.vue";
 	import DMSLeftBarMenu from "./DMSLeftBarMenu.vue";
 	import ClickOutside from "vue-click-outside";
+  import { getUser } from "../api/users";
 
 	export default {
 		components: { DMSTooltip, DMSLeftBarMenu },
@@ -109,7 +109,7 @@
 		},
 		methods: {
 			getUserData: async function () {
-				this.userData = await APIUser();
+				this.userData = await getUser('admin');
 				this.loading = false;
 			},
 			isSelected: function (item) {
