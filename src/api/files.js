@@ -9,6 +9,7 @@ export const _addFile = (file, parent) => {
     parent,
     size: file.size,
     version: 1,
+    created: new Date().getTime(),
     modified: new Date().getTime(),
     favorite: false,
     file
@@ -19,6 +20,12 @@ export const _addFile = (file, parent) => {
 
 export const addFile = makeFakeAPI(_addFile);
 
-export const getFile = makeFakeAPI(() => { });
+export const getFile = makeFakeAPI((id) => {
+  if (!files[id]) throw new Error("File not found");
+  return {
+    ...files[id],
+    tabs: ["info", "data", "version", "metadata"]
+  };
+});
 
 export const _getFiles = (parent) => Object.values(files).filter(file => file.parent === parent);

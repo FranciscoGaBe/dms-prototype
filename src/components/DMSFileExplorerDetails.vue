@@ -65,9 +65,8 @@
 
 <script>
 	import DMSTooltip from "./DMSTooltip.vue";
-
-	import { APIFile } from "@/api/api";
 	import DMSElementMenu from "./DMSElementMenu.vue";
+  import { getFile } from "../api/files";
 	export default {
 		name: "DMSFileExplorerDetails",
 		components: {
@@ -122,11 +121,22 @@
 		methods: {
 			getFileData: async function () {
 				this.loading = true;
-				this.fileData = await APIFile(this.file);
+				try {
+          this.fileData = await getFile(this.file);
+        }
+        catch (err) {
+          this.$router.replace({
+            name: this.$route.name,
+            params: {
+              ...this.$route.params,
+              file: ""
+            },
+          });
+        }
 				this.loading = false;
 			},
 			selectTab: function (index) {
-				if (name === this.$route.name) return;
+				if (index === this.$route.name) return;
 				this.$router.replace({
 					name: index,
 					params: this.$route.params,
