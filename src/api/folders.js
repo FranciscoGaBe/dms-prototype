@@ -1,4 +1,5 @@
 import { makeFakeAPI, randomID } from "../utils/utils";
+import { _addFile, _getFiles } from "./files";
 
 const folders = {};
 
@@ -29,7 +30,7 @@ export const getFolder = makeFakeAPI((id) => {
     ...folder,
     folder: folder.name,
     folders: Object.values(folders).filter(folder => folder.parent === id),
-    files: []
+    files: _getFiles(folder.id)
   };
 })
 
@@ -45,6 +46,10 @@ const setup = () => {
   const subFolder = _addFolder("Child folder", mainFolder.id);
   subFolder.modified = new Date(2022, 3, 5, 19, 56).getTime();
   subFolder.favorite = true;
+  const file = _addFile(new File(["© Francisco Garrido Bear"], "Copyright.txt", {
+    type: "text/plain",
+  }), mainFolder.id);
+  file.favorite = true;
 };
 
 setup();
