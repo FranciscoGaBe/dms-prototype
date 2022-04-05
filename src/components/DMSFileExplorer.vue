@@ -58,11 +58,12 @@
 
 <script>
 	import DMSFileExplorerItem from "./DMSFileExplorerItem.vue";
-	import { APIExplorer } from "@/api/api";
 	import DMSFileExplorerDetails from "./DMSFileExplorerDetails.vue";
 	import DMSItemsSkeleton from "./DMSItemsSkeleton.vue";
 	import DMSAdvanceSearch from "./DMSAdvanceSearch.vue";
 	import DMSFileUpload from "./DMSFileUpload.vue";
+  import { getFolder } from "../api/folders";
+  
 	export default {
 		name: "DMSFileExplorer",
 		components: {
@@ -102,8 +103,8 @@
 		methods: {
 			getFolderData: async function () {
 				this.loading = true;
-				this.folderData = await APIExplorer(
-					this.folder !== "@home" ? `Folder` : "Explorer"
+				this.folderData = await getFolder(
+					this.folder !== "@home" ? this.folder : "Explorer"
 				);
 				this.loading = false;
 			},

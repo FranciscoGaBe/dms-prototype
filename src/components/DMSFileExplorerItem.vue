@@ -14,9 +14,8 @@
 				Version: {{ item.version }}
 			</div>
 			<div class="text-xs text-gray-600">
-				<span>Modified: {{ item.modified | date }} - </span>
-				<span v-if="folder">Files: {{ item.files }}</span>
-				<span v-else>Size: {{ item.size | size }}</span>
+				<span>Modified: {{ item.modified | date }}</span>
+				<span v-if="!folder"> - Size: {{ item.size | size }}</span>
 			</div>
 		</div>
 		<div

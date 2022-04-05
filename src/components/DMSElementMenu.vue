@@ -36,6 +36,7 @@
 
 <script>
 	import ClickOutside from "vue-click-outside";
+import { deleteFolder } from "../api/folders";
 	export default {
 		name: "DMSElementMenu",
 		props: {
@@ -62,7 +63,9 @@
 			],
 		}),
 		methods: {
-			deleteItem: function () {
+			deleteItem: async function () {
+        const { id } = this.item;
+        if (this.folder) await deleteFolder(id)
 				const index = this.items.findIndex((item) => item === this.item);
 				this.show = false;
 				if (index < 0) return;

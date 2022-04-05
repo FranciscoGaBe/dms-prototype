@@ -20,3 +20,7 @@ export const makeFakeAPI = (callback, min = 400, max = 800) => (...args) => new 
     catch (err) { reject(err) }
   }, min + Math.random() * (max - min));
 });
+
+export const random = (min = 0, max = 1) => min + Math.floor(Math.random() * (max + 1))
+
+export const randomID = (len = 5) => Math.random().toString(36).substr(2, 2 + len)
