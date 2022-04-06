@@ -3,7 +3,7 @@
 		<slot :on="{ click: toggleMenu }"></slot>
 		<div
 			v-show="show"
-			class="bg-black bg-opacity-70 absolute rounded border-2 border-white shadow w-44 text-gray-100 overflow-hidden"
+			class="bg-white absolute rounded border-2 border-gray-200 shadow w-44 overflow-hidden"
 			:class="[top ? 'top-0' : 'bottom-0']"
 			style="right: 120%"
 		>
@@ -19,7 +19,7 @@
 					</div>
 					<div>{{ button.name }}</div>
 				</div>
-				<div class="border border-white"></div>
+				<div class="border border-gray-200"></div>
 			</template>
 			<div
 				class="py-1 flex items-center w-full hover:text-red-500 cursor-pointer"
