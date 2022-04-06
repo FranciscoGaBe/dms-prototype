@@ -1,5 +1,8 @@
 <template>
-	<div class="h-full p-1 shadow-xl bg-white">
+	<div
+    class="h-full p-1 shadow-xl bg-white absolute md:static transition-all duration-300 ease-in-out"
+    :class="[showBar ? 'left-0' : '-left-14']"
+  >
 		<div
 			class="h-full flex flex-col items-center"
 			:class="{ 'animate-pulse': loading }"
@@ -44,6 +47,12 @@
 				<DMSLeftBarMenu :show="showMenu" />
 			</div>
 		</div>
+    <div
+      class="md:hidden absolute left-full top-1/2 bg-white px-1.5 py-1 leading-none rounded-tr rounded-br"
+      @click="toggleBar"
+    >
+      <font-awesome-icon :icon="showBar ? 'chevron-left' : 'chevron-right'" />
+    </div>
 	</div>
 </template>
 
@@ -60,6 +69,7 @@
 			userData: {},
 			loading: true,
 			showMenu: false,
+      showBar: false
 		}),
 		mounted: function () {
 			this.getUserData();
@@ -133,6 +143,9 @@
 			closeMenu: function () {
 				this.showMenu = false;
 			},
+      toggleBar: function () {
+        this.showBar = !this.showBar;
+      }
 		},
 		directives: {
 			ClickOutside,
