@@ -1,7 +1,7 @@
 <template>
 	<div
 		class="bg-gray-200 border-l-2 border-gray-300 transition-all duration-300 ease-in-out h-full overflow-hidden absolute md:static"
-		:class="[file ? 'w-full md:w-1/3 inset-0' : 'w-0']"
+		:class="[file ? 'w-full md:w-1/3 inset-0 left-0' : 'w-0 left-full']"
 	>
 		<div v-if="file" class="h-full flex flex-col">
 			<div class="flex-shrink-0" :class="{ 'animate-pulse': loading }">
@@ -22,6 +22,9 @@
 									<font-awesome-icon icon="ellipsis-v" /></div
 							></template>
 						</DMSElementMenu>
+            <button class="ml-4 text-2xl" @click="close">
+              <font-awesome-icon icon="times" />
+            </button>
 					</div>
 					<div class="text-center text-7xl my-4">
 						<font-awesome-icon icon="file" />
@@ -126,13 +129,7 @@
           this.fileData = await getFile(this.file);
         }
         catch (err) {
-          this.$router.replace({
-            name: this.$route.name,
-            params: {
-              ...this.$route.params,
-              file: ""
-            },
-          });
+          this.close()
         }
 				this.loading = false;
 			},
@@ -143,6 +140,15 @@
 					params: this.$route.params,
 				});
 			},
+      close: function () {
+        this.$router.replace({
+					name: "explorer",
+					params: {
+            ...this.$route.params,
+            file: ""
+          },
+				});
+      }
 		},
 	};
 </script>
