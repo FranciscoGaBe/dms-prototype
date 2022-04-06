@@ -21,7 +21,8 @@ export const _addFile = (file, parent) => {
         date: new Date(2022, 3, 5, 19, 58).getTime(),
         file
       }
-    ]
+    ],
+    metadata: []
   };
   files[newFile.id] = newFile;
   return newFile;
@@ -42,3 +43,5 @@ export const _getFiles = (parent) => Object.values(files).filter(file => file.pa
 export const getFileInfo = getFile;
 
 export const getFileVersions = getFile;
+
+export const getFileMetadata = getFile;

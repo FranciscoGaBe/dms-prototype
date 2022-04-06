@@ -50,7 +50,12 @@ const setup = () => {
     type: "text/plain",
   }), mainFolder.id);
   file.favorite = true;
-  file.versions[0].modifiedBy = "Francisco Garrido"
+  file.versions[0].modifiedBy = "Francisco Garrido";
+  file.metadata = [
+    { name: "Copyright by", value: "Francisco Garrido" },
+    { name: "Github", value: "https://github.com/FranciscoGaBe/dms-prototype", link: true },
+    { name: "LinkedIn", value: "https://www.linkedin.com/in/francisco-garrido-679084198/", link: true }
+  ]
 };
 
 setup();
