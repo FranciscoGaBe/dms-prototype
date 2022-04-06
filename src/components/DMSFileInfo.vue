@@ -21,8 +21,8 @@
 </template>
 
 <script>
-	import { APIFileInfo } from "@/api/api";
 	import { dateToLocale, sizeConversion } from "@/utils/utils";
+  import { getFileInfo } from "../api/files";
 	import DMSItemsSkeleton from "./DMSItemsSkeleton.vue";
 	export default {
 		components: { DMSItemsSkeleton },
@@ -63,7 +63,7 @@
 		methods: {
 			getFileData: async function () {
 				this.loading = true;
-				this.fileData = await APIFileInfo(this.file);
+				this.fileData = await getFileInfo(this.file);
 				this.loading = false;
 			},
 		},

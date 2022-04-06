@@ -29,3 +29,5 @@ export const getFile = makeFakeAPI((id) => {
 });
 
 export const _getFiles = (parent) => Object.values(files).filter(file => file.parent === parent);
+
+export const getFileInfo = getFile
