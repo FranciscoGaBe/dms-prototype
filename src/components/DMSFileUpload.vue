@@ -11,11 +11,11 @@
 			<span>Upload File</span>
 		</DMSTooltip>
 		<div
-			class="fixed inset-0 bg-black z-50 bg-opacity-50 transition-all duration-300 ease-in-out p-4"
+			class="fixed inset-0 bg-black z-50 bg-opacity-50 transition-all duration-300 ease-in-out md:p-4"
 			:class="[show ? 'opacity-1' : 'opacity-0 pointer-events-none']"
 		>
 			<div
-				class="h-full w-full bg-white rounded shadow flex flex-col overflow-hidden"
+				class="h-full w-full bg-white md:rounded shadow flex flex-col overflow-hidden"
 			>
 				<div
 					class="flex-shrink-0 bg-gray-200 px-4 py-2 flex items-center"
@@ -28,11 +28,15 @@
 						<font-awesome-icon icon="times" />
 					</button>
 				</div>
+        <div class="md:hidden bg-gray-200 border-t border-b border-gray-300 px-2 py-1 flex justify-between items-center`">
+          <button @click="changeShowFiles()">Files</button>
+          <button @click="changeShowFiles(false)">Config</button>
+        </div>
 				<div
 					class="flex-grow border-t-2 border-b-2 border-gray-300 flex"
 				>
-					<DMSFileLoader class="w-1/2" v-model="files" />
-					<DMSFileUploadConfig class="w-1/2" :files="files" />
+					<DMSFileLoader class="w-full md:w-2/5" :class="{ 'hidden md:block': !showFiles }" v-model="files" />
+					<DMSFileUploadConfig class="w-full md:w-3/5" :class="{ 'hidden md:block': showFiles }" :files="files" />
 				</div>
 				<div
 					class="flex-shrink-0 bg-gray-200 px-4 py-2 flex items-center"
@@ -74,6 +78,7 @@
 		data: () => ({
 			show: false,
 			files: [],
+      showFiles: true
 		}),
 		methods: {
 			toggle: function () {
@@ -84,9 +89,11 @@
 				this.files = [];
 			},
 			upload: function () {
+        this.changeShowFiles();
 				this.clearFiles();
 				this.toggle();
 			},
+      changeShowFiles: function (value = true) { this.showFiles = value; }
 		},
 	};
 </script>
