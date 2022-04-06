@@ -1,7 +1,7 @@
 <template>
 	<div
-		class="bg-gray-200 border-l-2 border-gray-300 transition-all duration-300 ease-in-out h-full overflow-hidden"
-		:class="[file ? 'w-1/3' : 'w-0']"
+		class="bg-gray-200 border-l-2 border-gray-300 transition-all duration-300 ease-in-out h-full overflow-hidden absolute md:static"
+		:class="[file ? 'w-full md:w-1/3 inset-0' : 'w-0']"
 	>
 		<div v-if="file" class="h-full flex flex-col">
 			<div class="flex-shrink-0" :class="{ 'animate-pulse': loading }">

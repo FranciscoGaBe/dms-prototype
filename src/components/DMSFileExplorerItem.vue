@@ -5,7 +5,7 @@
 		@mouseenter="hovering = true"
 		@mouseleave="hovering = false"
 	>
-		<div class="text-blue-500 text-4xl w-16 text-center">
+		<div class="text-blue-500 text-2xl md:text-4xl w-10 md:w-16 text-center">
 			<font-awesome-icon :icon="icon" />
 		</div>
 		<div class="py-1">
@@ -15,11 +15,11 @@
 			</div>
 			<div class="text-xs text-gray-600">
 				<span>Modified: {{ item.modified | date }}</span>
-				<span v-if="!folder"> - Size: {{ item.size | size }}</span>
+				<span v-if="!folder" class="hidden md:inline"> - Size: {{ item.size | size }}</span>
 			</div>
 		</div>
 		<div
-			class="ml-auto text-xl px-3 py-2"
+			class="ml-auto text-xl px-2 py-2"
 			:class="[item.favorite ? 'text-yellow-300' : 'text-gray-300']"
 			@click.capture.stop="setFavorite"
 		>

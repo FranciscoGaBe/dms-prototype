@@ -1,8 +1,8 @@
 <template>
 	<div class="h-full flex">
-		<div class="flex-grow h-full flex flex-col pt-4 pl-4">
+		<div class="flex-grow h-full flex flex-col pt-4 md:pl-4">
 			<div
-				class="pb-1 border-b-2 pl-2 pr-8 border-gray-300 flex-shrink-0 flex items-center"
+				class="pb-1 border-b-2 pl-2 pr-2 md:pr-8 border-gray-300 flex-shrink-0 flex items-center"
 			>
 				<div
 					:class="{
@@ -28,7 +28,7 @@
 				<DMSFileUpload />
 			</div>
 			<template v-if="!loading">
-				<div class="px-4 py-2 flex-grow overflow-auto">
+				<div class="px-2 md:px-4 py-2 flex-grow overflow-auto">
 					<DMSFileExplorerItem
 						v-for="folder in folderData.folders"
 						:key="folder.id"
