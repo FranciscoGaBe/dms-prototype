@@ -25,7 +25,7 @@
 					}}</span>
 				</div>
 				<DMSAdvanceSearch class="ml-auto" />
-				<DMSFileUpload />
+				<DMSFileUpload :folder="folderId" @finished="getFolderData" />
 			</div>
 			<template v-if="!loading">
 				<div class="px-2 md:px-4 py-2 flex-grow overflow-auto">
@@ -92,6 +92,9 @@
 			},
 			selectedFile: {},
 		}),
+    computed: {
+      folderId: function () { return this.folder !== "@home" ? this.folder : "Explorer"; }
+    },
 		watch: {
 			folder: {
 				immediate: true,
@@ -103,9 +106,7 @@
 		methods: {
 			getFolderData: async function () {
 				this.loading = true;
-				this.folderData = await getFolder(
-					this.folder !== "@home" ? this.folder : "Explorer"
-				);
+				this.folderData = await getFolder(this.folderId);
 				this.loading = false;
 			},
 			selectFile: function (id) {

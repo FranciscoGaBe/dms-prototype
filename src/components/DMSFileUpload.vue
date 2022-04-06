@@ -62,7 +62,9 @@
 </template>
 
 <script>
-	import DMSButton from "./DMSButton.vue";
+	import { _addFile } from "../api/files";
+import { makeFakeAPI, random } from "../utils/utils";
+import DMSButton from "./DMSButton.vue";
 	import DMSFileLoader from "./DMSFileLoader.vue";
 	import DMSFileUploadConfig from "./DMSFileUploadConfig.vue";
 	import DMSTooltip from "./DMSTooltip.vue";
@@ -75,6 +77,12 @@
 			DMSFileLoader,
 			DMSFileUploadConfig,
 		},
+    props: {
+      folder: {
+				type: String,
+				required: true,
+			}
+    },
 		data: () => ({
 			show: false,
 			files: [],
@@ -88,9 +96,26 @@
 			clearFiles: function () {
 				this.files = [];
 			},
-			upload: function () {
+			upload: async function () {
         this.changeShowFiles();
+        const uploads = this.files.map(file => new Promise(async resolve => {
+          const duration = random(1000, 5000);
+          const update = 100;
+          const updateProgress = () => {
+            file.progress += update * 100 / duration;
+            file.progress = Math.round(file.progress * 100) / 100;
+            if (file.progress > 100) file.progress = 100;
+            this.files = [...this.files];
+            if (file.progress < 100) return setTimeout(() => updateProgress(), update);
+          }
+          setTimeout(() => updateProgress(), update);
+          await makeFakeAPI(_addFile, duration, duration)(file, this.folder);
+          resolve();
+        }))
+        await Promise.all(uploads);
+        await makeFakeAPI(() => {}, 1000, 1000)();
 				this.clearFiles();
+        this.$emit('finished');
 				this.toggle();
 			},
       changeShowFiles: function (value = true) { this.showFiles = value; }

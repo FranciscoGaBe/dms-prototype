@@ -23,17 +23,23 @@
 				<div
 					v-for="(file, index) in value"
 					:key="index"
-					class="flex items-center my-2"
+					class="flex my-2"
 				>
 					<div class="text-6xl text-blue-500 mr-4">
 						<font-awesome-icon icon="file" />
 					</div>
-					<div class="w-full">
-						<div class="text-lg font-medium">{{ file.name }}</div>
+					<div class="w-full flex flex-col pb-0.5">
+						<div class="text-lg font-medium leading-none">{{ file.name }}</div>
 						<div class="text-xs">Size: {{ file.size | size }}</div>
 						<div
-							class="border-4 border-gray-300 mt-1 rounded"
-						></div>
+							class="bg-gray-300 rounded relative overflow-hidden mt-auto"
+						>
+              <div
+                class="absolute left-0 top-0 bottom-0 bg-blue-300"
+                :style="{ width: file.progress + '%' }"
+              ></div>
+              <div class="text-center text-xs relative">{{ file.progress }}%</div>
+            </div>
 					</div>
 				</div>
 			</div>
@@ -59,7 +65,10 @@
 				if (this.$refs.input.files.length === 0) return;
 				this.$emit("input", [
 					...this.value,
-					...Array.from(this.$refs.input.files),
+					...Array.from(this.$refs.input.files).map(file => {
+            file.progress = 0;
+            return file;
+          }),
 				]);
 				this.$refs.input.value = "";
 			},
