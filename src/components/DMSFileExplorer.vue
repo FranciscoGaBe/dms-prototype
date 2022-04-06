@@ -46,7 +46,7 @@
 					/>
 				</div>
 			</template>
-			<DMSItemsSkeleton v-else :number="10" />
+			<DMSItemsSkeleton v-else class="px-2 md:px-4 py-2" :number="10" />
 		</div>
 		<DMSFileExplorerDetails
 			:file="file"
