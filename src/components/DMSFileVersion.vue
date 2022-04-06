@@ -33,10 +33,10 @@
 </template>
 
 <script>
-	import { APIFileVersion } from "@/api/api";
 	import { dateToLocale } from "@/utils/utils";
 	import DMSTooltip from "./DMSTooltip.vue";
 	import DMSItemsSkeleton from "./DMSItemsSkeleton.vue";
+  import { getFileVersions } from "../api/files";
 	export default {
 		components: { DMSTooltip, DMSItemsSkeleton },
 		name: "DMSFileVersion",
@@ -66,7 +66,7 @@
 		methods: {
 			getFileData: async function () {
 				this.loading = true;
-				this.fileData = await APIFileVersion(this.file);
+				this.fileData = await getFileVersions(this.file);
 				this.loading = false;
 			},
 		},

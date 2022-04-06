@@ -12,7 +12,16 @@ export const _addFile = (file, parent) => {
     created: new Date().getTime(),
     modified: new Date().getTime(),
     favorite: false,
-    file
+    file,
+    versions: [
+      {
+        version: 1,
+        status: "active",
+        modifiedBy: "Admin",
+        date: new Date(2022, 3, 5, 19, 58).getTime(),
+        file
+      }
+    ]
   };
   files[newFile.id] = newFile;
   return newFile;
@@ -30,4 +39,6 @@ export const getFile = makeFakeAPI((id) => {
 
 export const _getFiles = (parent) => Object.values(files).filter(file => file.parent === parent);
 
-export const getFileInfo = getFile
+export const getFileInfo = getFile;
+
+export const getFileVersions = getFile;

@@ -50,6 +50,7 @@ const setup = () => {
     type: "text/plain",
   }), mainFolder.id);
   file.favorite = true;
+  file.versions[0].modifiedBy = "Francisco Garrido"
 };
 
 setup();
