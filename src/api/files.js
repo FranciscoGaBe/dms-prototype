@@ -60,6 +60,14 @@ export const downloadVersion = makeFakeAPI((id, version) => {
   return files[id].versions[len - version].file;
 });
 
+export const setMetadata = makeFakeAPI((id, name, value) => {
+  if (!files[id]) throw new Error("File not found");
+  const metadata = files[id].metadata.find(m => m.name === name);
+  if (!metadata) throw new Error("Data not found");
+  metadata.value = value;
+  return metadata;
+})
+
 export const getFileInfo = getFile;
 
 export const getFileVersions = getFile;
