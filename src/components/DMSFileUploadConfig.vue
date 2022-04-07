@@ -166,7 +166,9 @@ import { getTemplates } from "../api/templates";
             ...templates
           ];
         }
-        catch (err) {}
+        catch (err) {
+          this.$alert(err);
+        }
         this.loadingTemplates = false;
       },
       onTemplateChange: function (file) {

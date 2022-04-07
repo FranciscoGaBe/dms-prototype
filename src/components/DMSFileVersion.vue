@@ -87,7 +87,9 @@
           this.fileData = await addVersion(this.file, file);
           this.$emit('version', this.fileData.version);
         }
-        catch (err) {}
+        catch (err) {
+          this.$alert(err);
+        }
         this.loading = false;
       },
       downloadVersion: async function (version) {
@@ -98,7 +100,9 @@
           download.download = file.name;
           download.click();
         }
-        catch (err) {}
+        catch (err) {
+          this.$alert(err);
+        }
       }
 		},
 		filters: {

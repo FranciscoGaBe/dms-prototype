@@ -129,7 +129,8 @@
           this.fileData = await getFile(this.file);
         }
         catch (err) {
-          this.close()
+          this.$alert(err);
+          this.close();
         }
 				this.loading = false;
 			},

@@ -104,7 +104,9 @@
           const { metadata } = await getFileMetadata(this.file);
           this.metadata = metadata;
         }
-        catch (err) {}
+        catch (err) {
+          this.$alert(err);
+        }
 				this.loading = false;
 			},
       saveMetadata: async function (metadata) {
@@ -116,7 +118,9 @@
           _metadata.splice(index, 1, md);
           this.metadata = _metadata;
         }
-        catch (err) {}
+        catch (err) {
+          this.$alert(err);
+        }
         metadata.saving = false;
       },
       clearMetadata: function (metadata) {

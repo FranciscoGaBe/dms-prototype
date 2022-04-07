@@ -124,6 +124,7 @@ import DMSButton from "./DMSButton.vue";
           this.toggle();
         }
         catch (err) {
+          this.$alert(err);
           this.uploading = false;
         }
 			},
