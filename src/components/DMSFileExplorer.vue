@@ -105,7 +105,12 @@
 		methods: {
 			getFolderData: async function () {
 				this.loading = true;
-				this.folderData = await getFolder(this.folderId);
+				try {
+          this.folderData = await getFolder(this.folderId, this.$route.query);
+        }
+        catch (err) {
+          this.$alert(err);
+        }
 				this.loading = false;
 			},
 			selectFile: function (id) {

@@ -1,5 +1,5 @@
 import { makeFakeAPI, randomID } from "../utils/utils";
-import { _addFile, _getFiles } from "./files";
+import { _addFile, _getFiles, _searchFiles } from "./files";
 
 const folders = {};
 
@@ -19,18 +19,27 @@ export const _addFolder = (name, parent, id = randomID()) => {
 
 export const addFolder = makeFakeAPI(_addFolder);
 
-export const _getFolder = (id) => {
+export const _getFolder = (id, query = {}) => {
+  if (id === '@Search') {
+    return {
+      id: "@Search",
+      name: "Search",
+      parent: null,
+      folders: [],
+      files: _searchFiles(query)
+    };
+  };
   if (!folders[id]) throw new Error("Folder not found");
   return folders[id];
 };
 
-export const getFolder = makeFakeAPI((id) => {
-  const folder = { ..._getFolder(id) };
+export const getFolder = makeFakeAPI((id, query) => {
+  const folder = { ..._getFolder(id, query) };
   return {
-    ...folder,
     folder: folder.name,
     folders: Object.values(folders).filter(folder => folder.parent === id),
-    files: _getFiles(folder.id)
+    files: _getFiles(folder.id),
+    ...folder
   };
 })
 
