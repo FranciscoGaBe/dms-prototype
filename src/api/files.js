@@ -54,6 +54,12 @@ export const addVersion = makeFakeAPI((id, file) => {
   return files[id];
 });
 
+export const downloadVersion = makeFakeAPI((id, version) => {
+  if (!files[id]) throw new Error("File not found");
+  const len = files[id].versions.length;
+  return files[id].versions[len - version].file;
+});
+
 export const getFileInfo = getFile;
 
 export const getFileVersions = getFile;
