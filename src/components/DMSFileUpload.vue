@@ -46,12 +46,12 @@
 						<DMSButton
 							class="mr-2"
 							color="red"
-							:disabled="!files.length"
+							:disabled="!files.length || uploading"
 							@click="clearFiles"
 						>
 							<span>Clear</span>
 						</DMSButton>
-						<DMSButton :disabled="!files.length" @click="upload">
+						<DMSButton :disabled="!files.length || uploading" @click="upload">
 							<span>Upload</span>
 						</DMSButton>
 					</div>
@@ -86,10 +86,12 @@ import DMSButton from "./DMSButton.vue";
 		data: () => ({
 			show: false,
 			files: [],
-      showFiles: true
+      showFiles: true,
+      uploading: false
 		}),
 		methods: {
 			toggle: function () {
+        if (this.uploading) return;
 				this.clearFiles();
 				this.show = !this.show;
 			},
@@ -97,26 +99,33 @@ import DMSButton from "./DMSButton.vue";
 				this.files = [];
 			},
 			upload: async function () {
+        this.uploading = true;
         this.changeShowFiles();
-        const uploads = this.files.map(file => new Promise(async resolve => {
-          const duration = random(1000, 5000);
-          const update = 100;
-          const updateProgress = () => {
-            file.progress += update * 100 / duration;
-            file.progress = Math.round(file.progress * 100) / 100;
-            if (file.progress > 100) file.progress = 100;
-            this.files = [...this.files];
-            if (file.progress < 100) return setTimeout(() => updateProgress(), update);
-          }
-          setTimeout(() => updateProgress(), update);
-          await makeFakeAPI(_addFile, duration, duration)(file, this.folder);
-          resolve();
-        }))
-        await Promise.all(uploads);
-        await makeFakeAPI(() => {}, 1000, 1000)();
-				this.clearFiles();
-        this.$emit('finished');
-				this.toggle();
+        try {
+          const uploads = this.files.map(file => new Promise(async resolve => {
+            const duration = random(1000, 5000);
+            const update = 100;
+            const updateProgress = () => {
+              file.progress += update * 100 / duration;
+              file.progress = Math.round(file.progress * 100) / 100;
+              if (file.progress > 100) file.progress = 100;
+              this.files = [...this.files];
+              if (file.progress < 100) return setTimeout(() => updateProgress(), update);
+            }
+            setTimeout(() => updateProgress(), update);
+            await makeFakeAPI(_addFile, duration, duration)(file, this.folder);
+            resolve();
+          }))
+          await Promise.all(uploads);
+          await makeFakeAPI(() => {}, 1000, 1000)();
+          this.clearFiles();
+          this.uploading = false;
+          this.$emit('finished');
+          this.toggle();
+        }
+        catch (err) {
+          this.uploading = false;
+        }
 			},
       changeShowFiles: function (value = true) { this.showFiles = value; }
 		},
