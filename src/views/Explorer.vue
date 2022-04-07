@@ -2,17 +2,21 @@
 	<div class="h-full flex">
 		<DMSLeftBar class="flex-shrink-0" />
 		<DMSFileExplorer class="flex-grow" :folder="folder" :file="file" />
+    <DMSAlert ref="alert" />
 	</div>
 </template>
 
 <script>
 	import DMSFileExplorer from "../components/DMSFileExplorer.vue";
 	import DMSLeftBar from "../components/DMSLeftBar.vue";
+  import DMSAlert from "../components/DMSAlert.vue";
+
 	export default {
 		components: {
-			DMSLeftBar,
-			DMSFileExplorer,
-		},
+      DMSLeftBar,
+      DMSFileExplorer,
+      DMSAlert
+    },
 		props: {
 			folder: {
 				type: String,
@@ -22,6 +26,6 @@
 				type: String,
 				default: "",
 			},
-		},
+		}
 	};
-</script>DMSLeftBar
+</script>
