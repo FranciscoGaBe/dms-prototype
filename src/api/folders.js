@@ -51,6 +51,7 @@ const setup = () => {
   }), mainFolder.id);
   file.favorite = true;
   file.versions[0].modifiedBy = "Francisco Garrido";
+  file.versions[0].date = new Date(2022, 3, 5, 19, 58).getTime();
   file.metadata = [
     { name: "Copyright by", value: "Francisco Garrido" },
     { name: "Github", value: "https://github.com/FranciscoGaBe/dms-prototype", link: true },

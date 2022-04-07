@@ -59,7 +59,7 @@
 			</div>
 			<div class="flex-grow bg-white">
 				<keep-alive>
-					<router-view />
+					<router-view @version="onVersion" />
 				</keep-alive>
 			</div>
 		</div>
@@ -148,6 +148,9 @@
             file: ""
           },
 				});
+      },
+      onVersion: function (version) {
+        this.fileData.version = version;
       }
 		},
 	};

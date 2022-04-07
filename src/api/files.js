@@ -18,7 +18,7 @@ export const _addFile = (file, parent) => {
         version: 1,
         status: "active",
         modifiedBy: "Admin",
-        date: new Date(2022, 3, 5, 19, 58).getTime(),
+        date: new Date().getTime(),
         file
       }
     ],
@@ -39,6 +39,20 @@ export const getFile = makeFakeAPI((id) => {
 });
 
 export const _getFiles = (parent) => Object.values(files).filter(file => file.parent === parent);
+
+export const addVersion = makeFakeAPI((id, file) => {
+  if (!files[id]) throw new Error("File not found");
+  files[id].versions[0].status = "expiring";
+  files[id].version += 1;
+  files[id].versions.unshift({
+    version: files[id].version,
+    status: "active",
+    modifiedBy: "Admin",
+    date: new Date().getTime(),
+    file
+  });
+  return files[id];
+});
 
 export const getFileInfo = getFile;
 

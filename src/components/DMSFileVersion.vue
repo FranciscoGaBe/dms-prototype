@@ -1,7 +1,14 @@
 <template>
 	<div class="h-full p-4">
-		<template v-if="!loading"
-			><div
+		<template v-if="!loading">
+      <div class="text-right mb-3">
+        <input ref="input" type="file" class="hidden" @change="onNewVersion">
+        <button class="text-gray-400 font-semibold" @click="$refs.input.click()">
+          <font-awesome-icon class="mr-1" icon="plus" />
+          <span>New version</span>
+        </button>
+      </div>
+      <div
 				v-for="version in fileData.versions"
 				:key="version.version"
 				class="flex my-1 bg-gray-200 border-2 border-gray-300 rounded overflow-hidden"
@@ -26,8 +33,8 @@
 						</div>
 					</div>
 				</div>
-			</div></template
-		>
+			</div>
+    </template>
 		<DMSItemsSkeleton v-else />
 	</div>
 </template>
@@ -36,7 +43,8 @@
 	import { dateToLocale } from "@/utils/utils";
 	import DMSTooltip from "./DMSTooltip.vue";
 	import DMSItemsSkeleton from "./DMSItemsSkeleton.vue";
-  import { getFileVersions } from "../api/files";
+  import { getFileVersions, addVersion } from "../api/files";
+
 	export default {
 		components: { DMSTooltip, DMSItemsSkeleton },
 		name: "DMSFileVersion",
@@ -69,6 +77,16 @@
 				this.fileData = await getFileVersions(this.file);
 				this.loading = false;
 			},
+      onNewVersion: async function () {
+        const file = this.$refs.input.files[0];
+        this.loading = true;
+        try {
+          this.fileData = await addVersion(this.file, file);
+          this.$emit('version', this.fileData.version);
+        }
+        catch (err) {}
+        this.loading = false;
+      }
 		},
 		filters: {
 			date: dateToLocale,
