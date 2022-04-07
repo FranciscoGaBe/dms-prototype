@@ -2,7 +2,7 @@ import { makeFakeAPI, randomID } from "../utils/utils"
 
 const files = {}
 
-export const _addFile = (file, parent) => {
+export const _addFile = (file, parent, metadata = []) => {
   const newFile = {
     id: randomID(),
     name: file.name,
@@ -22,7 +22,7 @@ export const _addFile = (file, parent) => {
         file
       }
     ],
-    metadata: []
+    metadata
   };
   files[newFile.id] = newFile;
   return newFile;

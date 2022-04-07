@@ -113,7 +113,7 @@ import DMSButton from "./DMSButton.vue";
               if (file.progress < 100) return setTimeout(() => updateProgress(), update);
             }
             setTimeout(() => updateProgress(), update);
-            await makeFakeAPI(_addFile, duration, duration)(file, this.folder);
+            await makeFakeAPI(_addFile, duration, duration)(file, this.folder, file.metadata);
             resolve();
           }))
           await Promise.all(uploads);

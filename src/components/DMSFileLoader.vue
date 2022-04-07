@@ -67,6 +67,8 @@
 					...this.value,
 					...Array.from(this.$refs.input.files).map(file => {
             file.progress = 0;
+            file.template = "",
+            file.metadata = [];
             return file;
           }),
 				]);

@@ -40,14 +40,19 @@
 					</DMSTooltip>
 					<select
 						class="flex-grow border border-gray-300 rounded px-2 py-0.5 outline-none focus:outline-none focus:border-gray-500 transition-all duration-300 ease-in-out"
+            v-model="file.template"
+            @change.lazy="onTemplateChange(file)"
 					>
-						<option
-							v-for="template in templates"
-							:key="template"
-							value="template"
-						>
-							{{ template }}
-						</option>
+						<template v-if="!loadingTemplates">
+              <option
+                v-for="template in templates"
+                :key="template.value"
+                :value="template.value"
+              >
+                {{ template.name }}
+              </option>
+            </template>
+            <option v-else value="">Downloading templates...</option>
 					</select>
 				</div>
 			</div>
@@ -58,33 +63,7 @@
 					:key="index"
 					class="flex flex-col h-full w-full"
 				>
-					<div class="flex-grow p-4">
-						<div class="px-2 mb-4 flex items-center">
-							<div class="text-sm">
-								<span>Template: </span>
-								<span class="font-medium">{{
-									templates[0]
-								}}</span>
-							</div>
-							<DMSButton class="ml-auto text-xs" @click="scan">
-								<span>SCAN</span>
-							</DMSButton>
-						</div>
-						<div
-							v-for="(data, dataIndex) in metadata"
-							:key="data"
-							class="flex items-center bg-gray-200 border-2 border-gray-300 rounded px-2 py-1 my-1"
-						>
-							<div class="w-1/4 font-medium">{{ data }}</div>
-							<div class="w-3/4">
-								<DMSInput
-									class="w-full"
-									v-model="dataValues[dataIndex]"
-								/>
-							</div>
-						</div>
-					</div>
-					<div
+          <div
 						class="flex items-center shadow bg-gray-100 flex-shrink-0 border-t border-gray-200"
 					>
 						<div class="text-sm w-10 h-10 flex-shrink-0">
@@ -109,6 +88,36 @@
 							</button>
 						</div>
 					</div>
+					<div class="flex-grow p-4">
+						<div class="px-2 mb-4 flex items-center">
+							<div class="text-sm py-2">
+								<span>Template: </span>
+								<span class="font-medium">{{ file.template }}</span>
+							</div>
+							<DMSButton v-show="file.metadata.length" class="ml-auto text-xs" @click="scan(file)">
+								<span>SCAN</span>
+							</DMSButton>
+						</div>
+            <template v-if="file.metadata.length">
+              <div
+                v-for="md in file.metadata"
+                :key="md.name"
+                class="flex items-center bg-gray-200 border-2 border-gray-300 rounded px-2 py-1 my-1"
+              >
+                <div class="w-1/4 font-medium">{{ md.name }}</div>
+                <div class="w-3/4">
+                  <DMSInput
+                    class="w-full"
+                    v-model="md.value"
+                  />
+                </div>
+              </div>
+            </template>
+            <div v-else>
+              <p class="text-xl text-gray-500 text-center py-4">This template has no metadata</p>
+            </div>
+					</div>
+
 				</div>
 			</template>
 		</div>
@@ -119,6 +128,7 @@
 	import DMSInput from "./DMSInput.vue";
 	import DMSTooltip from "./DMSTooltip.vue";
 	import DMSButton from "./DMSButton.vue";
+import { getTemplates } from "../api/templates";
 	export default {
 		components: { DMSTooltip, DMSInput, DMSButton },
 		name: "DMSFileUploadConfig",
@@ -131,32 +141,48 @@
 		data: () => ({
 			tabs: ["template", "metadata"],
 			tabIndex: 0,
-
-			templates: ["Supplier"],
-
+      loadingTemplates: false,
+			templates: [],
 			currentFile: 0,
-			metadata: ["Client", "Address", "Phone Number", "Expedition", "Total"],
-			dataValues: ["", "", "", "", ""],
 		}),
 		computed: {
 			selectedTab: function () {
 				return this.tabs[this.tabIndex];
 			},
 		},
-		watch: {
-			currentFile: function () {
-				this.clearData();
-			},
-		},
+    mounted: function () {
+      this.getTemplates();
+    },
 		methods: {
-			scan: function () {
-				this.dataValues = this.dataValues.map(
-					(_, index) => `${this.metadata[index]} value`
-				);
-			},
-			clearData: function () {
-				this.dataValues = this.dataValues.map(() => "");
-			},
+      getTemplates: async function () {
+        this.loadingTemplates = true;
+        try {
+          const templates = (await getTemplates()).map(template => ({
+            ...template,
+            value: template.name
+          }));
+          this.templates = [
+            { name: "Choose a template", value: "", metadata: [] },
+            ...templates
+          ];
+        }
+        catch (err) {}
+        this.loadingTemplates = false;
+      },
+      onTemplateChange: function (file) {
+        const template = this.templates.find(({ value }) => value === file.template)
+        file.metadata = template.metadata.map(name => ({
+          name,
+          value: ""
+        }));
+      },
+			scan: function (file) {
+				file.metadata = file.metadata.map(({ name }) => ({
+          name,
+          value: `${name} value`
+        }));
+        this.files.splice(this.files.findIndex(f => f === file), 1, file);
+			}
 		},
 	};
 </script>
