@@ -14,8 +14,7 @@
 						<span
 							class="text-sm font-medium cursor-pointer"
 							@click="goTo()"
-							>Home</span
-						>
+            >Home</span>
 						<span class="mx-2 text-sm"
 							><font-awesome-icon icon="chevron-right"
 						/></span>

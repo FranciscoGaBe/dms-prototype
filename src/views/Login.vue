@@ -18,7 +18,10 @@
 				>Login</DMSButton
 			> 
 		</form>
-    <div class="mt-2 text-gray-400">Username and password: admin</div>
+    <div class="mt-2 text-gray-400 text-center text-xs">
+      <p>This is only a prototype, all the data is saved on memory until the page is closed.</p>
+      <p>Username and password: <b>admin</b></p>
+    </div>
 	</div>
 </template>
 
