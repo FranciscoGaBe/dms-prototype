@@ -59,7 +59,7 @@
           this.loading = false;
           this.$router.replace({
             name: "explorer",
-            params: { folder: "@home" },
+            params: { folder: "@Home" },
           });
         }
         catch (err) {

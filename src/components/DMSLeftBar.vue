@@ -80,14 +80,14 @@
 
 				return [
 					{
-						id: "@home",
+						id: "@Home",
 						folder: true,
 						icon: "home",
 						name: "Home",
 						route: {
 							name: "explorer",
 							params: {
-								folder: "@home",
+								folder: "@Home",
 								file: "",
 							},
 						},
@@ -102,7 +102,7 @@
 							route: {
 								name: isFolder ? "explorer" : "info",
 								params: {
-									folder: isFolder ? fav.id : fav.parent,
+									folder: isFolder ? fav.id : this.$route.params.folder,
 									file: isFolder ? "" : fav.id,
 								},
 							},

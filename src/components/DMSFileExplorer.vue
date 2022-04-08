@@ -106,7 +106,7 @@
 			selectedFile: {},
 		}),
     computed: {
-      folderId: function () { return this.folder !== "@home" ? this.folder : "Explorer"; },
+      folderId: function () { return this.folder; },
       numberOfItems: function () { return this.folderData.files.length + this.folderData.folders.length; },
       isSearch: function () { return this.folder === '@Search'; }
     },
