@@ -39,6 +39,7 @@ export const getFolder = makeFakeAPI((id, query) => {
     folder: folder.name,
     folders: Object.values(folders).filter(folder => folder.parent === id),
     files: _getFiles(folder.id),
+    parentName: folder.parent ? folders[folder.parent].name : null,
     ...folder
   };
 })
@@ -52,7 +53,7 @@ export const deleteFolder = makeFakeAPI((id) => {
 export const _getFavoriteFolders = () => Object.values(folders).filter(folder => folder.favorite);
 
 const setup = () => {
-  const mainFolder = _addFolder("Explorer", null, "Explorer");
+  const mainFolder = _addFolder("Home", null, "Explorer");
   mainFolder.modified = new Date(2022, 3, 5, 19, 54).getTime();
   const subFolder = _addFolder("Child folder", mainFolder.id);
   subFolder.modified = new Date(2022, 3, 5, 19, 56).getTime();

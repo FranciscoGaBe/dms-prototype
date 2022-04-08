@@ -9,11 +9,11 @@
 						'animate-pulse text-gray-400 bg-gray-400 rounded': loading,
 					}"
 				>
-					<template v-if="$route.params.folder !== '@home'">
+					<template v-if="folderData.parentName">
 						<span
 							class="text-sm font-medium cursor-pointer"
-							@click="goTo()"
-            >Home</span>
+							@click="goTo(folderData.parent)"
+            >{{ folderData.parentName }}</span>
 						<span class="mx-2 text-sm">
               <font-awesome-icon icon="chevron-right" />
             </span>
@@ -126,6 +126,7 @@
         }
         catch (err) {
           this.$alert(err);
+          this.goTo();
         }
 				this.loading = false;
 			},
