@@ -25,7 +25,7 @@
 		>
 			<font-awesome-icon icon="star" />
 		</div>
-		<DMSElementMenu :folder="folder" :item="item" :items="items">
+		<DMSElementMenu :folder="folder" :item="item" :items="items" @delete="onDelete">
 			<template #default="{ on }">
 				<div
 					class="px-3 py-2 text-2xl text-blue-600"
@@ -76,6 +76,10 @@
 				if (this.folder) return this.$emit("selectFolder", this.item.id);
 				this.$emit("selectFile", this.item.id);
 			},
+      onDelete: function () {
+        this.item.favorite = false;
+        this.$emit('favorite', this.item);
+      }
 		},
 		filters: {
 			date: dateToLocale,

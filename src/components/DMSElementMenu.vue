@@ -19,9 +19,10 @@
 					</div>
 					<div>{{ button.name }}</div>
 				</div>
-				<div class="border border-gray-200"></div>
+				<div v-if="items.length" class="border border-gray-200"></div>
 			</template>
 			<div
+        v-if="items.length"
 				class="py-1 flex items-center w-full hover:text-red-500 cursor-pointer"
 				@click.capture.stop="deleteItem"
 			>
@@ -36,6 +37,7 @@
 
 <script>
 	import ClickOutside from "vue-click-outside";
+import { deleteFile } from "../api/files";
 import { deleteFolder } from "../api/folders";
 	export default {
 		name: "DMSElementMenu",
@@ -64,12 +66,19 @@ import { deleteFolder } from "../api/folders";
 		}),
 		methods: {
 			deleteItem: async function () {
-        const { id } = this.item;
-        if (this.folder) await deleteFolder(id)
-				const index = this.items.findIndex((item) => item === this.item);
-				this.show = false;
-				if (index < 0) return;
-				this.items.splice(index, 1);
+        try {
+          const { id } = this.item;
+          if (this.folder) await deleteFolder(id)
+          else await deleteFile(id);
+          const index = this.items.findIndex((item) => item === this.item);
+          this.show = false;
+          if (index < 0) return;
+          this.items.splice(index, 1);
+          this.$emit('delete');
+        }
+        catch (err) {
+          this.$alert(err);
+        }
 			},
 			goTo: function (route) {
 				this.show = false;

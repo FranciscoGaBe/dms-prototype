@@ -80,6 +80,12 @@ export const setMetadata = makeFakeAPI((id, name, value) => {
 
 export const _getFavoriteFiles = () => Object.values(files).filter(file => file.favorite);
 
+export const deleteFile = makeFakeAPI(id => {
+  if (!files[id]) throw new Error("File not found");
+  delete files[id];
+  return true;
+});
+
 export const getFileInfo = getFile;
 
 export const getFileVersions = getFile;

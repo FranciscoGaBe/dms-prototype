@@ -120,6 +120,10 @@
 					this.getFileData();
 				},
 			},
+      files: {
+        deep: true,
+        handler: function () { this.close(); }
+      }
 		},
 		methods: {
 			getFileData: async function () {
@@ -148,7 +152,7 @@
             ...this.$route.params,
             file: ""
           },
-				});
+				}).catch(() => {});
       },
       onVersion: function (version) {
         this.fileData.version = version;
