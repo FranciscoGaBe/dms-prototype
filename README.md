@@ -4,4 +4,4 @@ A Front-end DMS prototype, all data is stored in memory until the page is closed
 
 ## Online demo
 
-The prototype can be checked [here](https://github.com/FranciscoGaBe/dms-prototype).
+The prototype can be checked [here](https://franciscogabe.github.io/dms-prototype/).
