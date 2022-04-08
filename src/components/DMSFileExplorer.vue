@@ -26,7 +26,8 @@
 				<DMSAdvanceSearch class="ml-auto" />
 				<DMSFileUpload :folder="folderId" @finished="getFolderData" />
 			</div>
-			<template v-if="!loading">
+      <DMSItemsSkeleton v-if="loading" class="px-2 md:px-4 py-2" :number="10" />
+			<template v-else-if="numberOfItems">
 				<div class="px-2 md:px-4 py-2 flex-grow overflow-auto">
 					<DMSFileExplorerItem
 						v-for="folder in folderData.folders"
@@ -47,7 +48,14 @@
 					/>
 				</div>
 			</template>
-			<DMSItemsSkeleton v-else class="px-2 md:px-4 py-2" :number="10" />
+      <div v-else class="flex items-center justify-center h-full text-gray-400 text-center">
+        <div>
+          <font-awesome-icon class="text-8xl" :icon="folder === '@Search' ? 'search' : 'folder-open'" />
+          <p class="font-bold text-2xl mt-4">
+            {{ folder === '@Search' ? 'No search results' : 'Nothing inside this folder' }}
+          </p>
+        </div>
+      </div>
 		</div>
 		<DMSFileExplorerDetails
 			:file="file"
@@ -94,7 +102,8 @@
 			selectedFile: {},
 		}),
     computed: {
-      folderId: function () { return this.folder !== "@home" ? this.folder : "Explorer"; }
+      folderId: function () { return this.folder !== "@home" ? this.folder : "Explorer"; },
+      numberOfItems: function () { return this.folderData.files.length + this.folderData.folders.length; }
     },
 		watch: {
 			folder: {
