@@ -6,8 +6,7 @@
 			>
 				<div
 					:class="{
-						'animate-pulse text-gray-400 bg-gray-400 rounded':
-							loading,
+						'animate-pulse text-gray-400 bg-gray-400 rounded': loading,
 					}"
 				>
 					<template v-if="$route.params.folder !== '@home'">
@@ -15,16 +14,19 @@
 							class="text-sm font-medium cursor-pointer"
 							@click="goTo()"
             >Home</span>
-						<span class="mx-2 text-sm"
-							><font-awesome-icon icon="chevron-right"
-						/></span>
+						<span class="mx-2 text-sm">
+              <font-awesome-icon icon="chevron-right" />
+            </span>
 					</template>
-					<span class="text-3xl font-bold uppercase">{{
-						folderData.folder
-					}}</span>
+					<span class="text-3xl font-bold uppercase">
+            {{ folderData.folder }}
+          </span>
 				</div>
 				<DMSAdvanceSearch class="ml-auto" />
-				<DMSFileUpload :folder="folderId" @finished="getFolderData" />
+        <template v-if="!isSearch">
+          <DMSFileUpload :folder="folderId" @finished="getFolderData" />
+          <DMSNewFolder :parent="folder" @newFolder="getFolderData" />
+        </template>
 			</div>
       <DMSItemsSkeleton v-if="loading" class="px-2 md:px-4 py-2" :number="10" />
 			<template v-else-if="numberOfItems">
@@ -50,9 +52,9 @@
 			</template>
       <div v-else class="flex items-center justify-center h-full text-gray-400 text-center">
         <div>
-          <font-awesome-icon class="text-8xl" :icon="folder === '@Search' ? 'search' : 'folder-open'" />
+          <font-awesome-icon class="text-8xl" :icon="isSearch ? 'search' : 'folder-open'" />
           <p class="font-bold text-2xl mt-4">
-            {{ folder === '@Search' ? 'No search results' : 'Nothing inside this folder' }}
+            {{ isSearch ? 'No search results' : 'Nothing inside this folder' }}
           </p>
         </div>
       </div>
@@ -72,16 +74,18 @@
 	import DMSAdvanceSearch from "./DMSAdvanceSearch.vue";
 	import DMSFileUpload from "./DMSFileUpload.vue";
   import { getFolder } from "../api/folders";
+  import DMSNewFolder from "./DMSNewFolder.vue";
   
 	export default {
 		name: "DMSFileExplorer",
 		components: {
-			DMSFileExplorerItem,
-			DMSFileExplorerDetails,
-			DMSItemsSkeleton,
-			DMSAdvanceSearch,
-			DMSFileUpload,
-		},
+      DMSFileExplorerItem,
+      DMSFileExplorerDetails,
+      DMSItemsSkeleton,
+      DMSAdvanceSearch,
+      DMSFileUpload,
+      DMSNewFolder
+    },
 		props: {
 			folder: {
 				type: String,
@@ -103,7 +107,8 @@
 		}),
     computed: {
       folderId: function () { return this.folder !== "@home" ? this.folder : "Explorer"; },
-      numberOfItems: function () { return this.folderData.files.length + this.folderData.folders.length; }
+      numberOfItems: function () { return this.folderData.files.length + this.folderData.folders.length; },
+      isSearch: function () { return this.folder === '@Search'; }
     },
 		watch: {
 			folder: {
