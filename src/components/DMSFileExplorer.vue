@@ -35,6 +35,7 @@
 						folder
 						:items="folderData.folders"
 						@selectFolder="selectFolder"
+            @favorite="folder => onFavorite(folder, 'folder')"
 					/>
 					<DMSFileExplorerItem
 						v-for="file in folderData.files"
@@ -42,6 +43,7 @@
 						:item="file"
 						:items="folderData.files"
 						@selectFile="selectFile"
+            @favorite="file => onFavorite(file, 'file')"
 					/>
 				</div>
 			</template>
@@ -142,6 +144,12 @@
 					},
 				});
 			},
+      onFavorite: function (item, type) {
+        this.$emit('favorite', {
+          ...item,
+          type
+        });
+      }
 		},
 	};
 </script>

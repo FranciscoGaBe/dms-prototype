@@ -49,6 +49,8 @@ export const deleteFolder = makeFakeAPI((id) => {
   return true;
 })
 
+export const _getFavoriteFolders = () => Object.values(folders).filter(folder => folder.favorite);
+
 const setup = () => {
   const mainFolder = _addFolder("Explorer", null, "Explorer");
   mainFolder.modified = new Date(2022, 3, 5, 19, 54).getTime();

@@ -70,6 +70,7 @@
 		methods: {
 			setFavorite: function () {
 				this.item.favorite = !this.item.favorite;
+        this.$emit('favorite', this.item);
 			},
 			selectItem: function () {
 				if (this.folder) return this.$emit("selectFolder", this.item.id);

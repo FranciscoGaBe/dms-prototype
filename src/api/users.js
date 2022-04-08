@@ -1,4 +1,6 @@
 import { makeFakeAPI } from "../utils/utils"
+import { _getFavoriteFiles } from "./files";
+import { _getFavoriteFolders } from "./folders";
 
 const users = {
   admin: {
@@ -6,7 +8,16 @@ const users = {
     password: "admin",
     initials: "A",
     name: "Admin",
-    favorites: []
+    favorites: [
+      ..._getFavoriteFolders().map(folder => ({
+        ...folder,
+        type: 'folder'
+      })),
+      ..._getFavoriteFiles().map(file => ({
+        ...file,
+        type: 'file'
+      }))
+    ]
   }
 };
 

@@ -145,6 +145,15 @@
 			},
       toggleBar: function () {
         this.showBar = !this.showBar;
+      },
+      addFavorite: function (item) {
+        const { favorites } = this.userData;
+        if (item.favorite) favorites.push(item);
+        else {
+          const index = favorites.findIndex(({ id }) => id === item.id);
+          if (index < 0) return;
+          favorites.splice(index, 1);
+        }
       }
 		},
 		directives: {

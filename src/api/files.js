@@ -78,6 +78,8 @@ export const setMetadata = makeFakeAPI((id, name, value) => {
   return metadata;
 })
 
+export const _getFavoriteFiles = () => Object.values(files).filter(file => file.favorite);
+
 export const getFileInfo = getFile;
 
 export const getFileVersions = getFile;

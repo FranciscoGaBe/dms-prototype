@@ -1,7 +1,7 @@
 <template>
 	<div class="h-full flex">
-		<DMSLeftBar class="flex-shrink-0" />
-		<DMSFileExplorer class="flex-grow" :folder="folder" :file="file" />
+		<DMSLeftBar ref="leftBar" class="flex-shrink-0" />
+		<DMSFileExplorer class="flex-grow" :folder="folder" :file="file" @favorite="onFavorite" />
     <DMSAlert ref="alert" />
 	</div>
 </template>
@@ -25,7 +25,12 @@
 			file: {
 				type: String,
 				default: "",
-			},
-		}
+			}
+		},
+    methods: {
+      onFavorite: function (item) {
+        this.$refs.leftBar.addFavorite(item);
+      }
+    }
 	};
 </script>
